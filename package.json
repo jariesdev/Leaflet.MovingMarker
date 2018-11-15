@@ -1,0 +1,29 @@
+{
+  "name": "leaflet.movingmarker",
+  "version": "1.0.0",
+  "description": "A Leaflet plug-in to create moving marker",
+  "main": "MovingMarker.js",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jariesdev/Leaflet.MovingMarker.git"
+  },
+  "keywords": [
+    "leaflet",
+    "moving",
+    "marker",
+    "animated",
+    "animation"
+  ],
+  "author": "Jay Aries Flores",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jariesdev/Leaflet.MovingMarker/issues"
+  },
+  "homepage": "https://github.com/jariesdev/Leaflet.MovingMarker#readme"
+}

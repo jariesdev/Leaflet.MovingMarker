@@ -302,3 +302,5 @@ L.Marker.MovingMarker = L.Marker.extend({
 L.Marker.movingMarker = function (latlngs, duration, options) {
     return new L.Marker.MovingMarker(latlngs, duration, options);
 };
+
+export default L.Marker.movingMarker;

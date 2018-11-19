@@ -19,6 +19,7 @@ L.Marker.MovingMarker = L.Marker.extend({
     options: {
         autostart: false,
         loop: false,
+        keepCenter: false,
     },
 
     initialize: function (latlngs, durations, options) {
@@ -45,6 +46,7 @@ L.Marker.MovingMarker = L.Marker.extend({
         this._animRequested = false;
         this._currentLine = [];
         this._stations = {};
+        this._slideKeepAtCenter = options.keepCenter;
     },
 
     isRunning: function() {
@@ -127,6 +129,12 @@ L.Marker.MovingMarker = L.Marker.extend({
         this._state = L.Marker.MovingMarker.notStartedState;
         this.start();
         this.options.loop = false;
+    },
+
+    moveToIndex: function(index) {
+        var latlng = this._latlngs[index];
+        this.setLatLng(latlng);
+        this._loadLine(index);
     },
 
     addStation: function(pointIndex, duration) {
@@ -223,7 +231,6 @@ L.Marker.MovingMarker = L.Marker.extend({
     _updateLine: function(timestamp) {
         // time elapsed since the last latlng
         var elapsedTime = timestamp - this._startTimeStamp;
-
         // not enough time to update the line
         if (elapsedTime <= this._currentDuration) {
             return elapsedTime;
@@ -232,6 +239,8 @@ L.Marker.MovingMarker = L.Marker.extend({
         var lineIndex = this._currentIndex;
         var lineDuration = this._currentDuration;
         var stationDuration;
+
+        this.fire('indexChange', {index: lineIndex});
 
         while (elapsedTime > lineDuration) {
             // substract time of the current line
@@ -269,6 +278,8 @@ L.Marker.MovingMarker = L.Marker.extend({
         this._loadLine(lineIndex);
         this._startTimeStamp = timestamp - elapsedTime;
         this._startTime = Date.now() - elapsedTime;
+
+        this.fire('indexChanged', {index: lineIndex});
         return elapsedTime;
     },
 
@@ -290,12 +301,17 @@ L.Marker.MovingMarker = L.Marker.extend({
                 this._currentDuration,
                 elapsedTime);
             this.setLatLng(p);
+
+            if (this._slideKeepAtCenter) {
+                this._map.panTo(p, {animate: false})
+            }
         }
 
         if (! noRequestAnim) {
             this._animId = L.Util.requestAnimFrame(this._animate, this, false);
             this._animRequested = true;
         }
+
     }
 });
 

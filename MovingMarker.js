@@ -133,6 +133,7 @@ L.Marker.MovingMarker = L.Marker.extend({
 
     moveToIndex: function(index) {
         var latlng = this._latlngs[index];
+        this._currentIndex = index;
         this.setLatLng(latlng);
         this._loadLine(index);
     },
